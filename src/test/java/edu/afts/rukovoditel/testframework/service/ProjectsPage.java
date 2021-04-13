@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import edu.afts.rukovoditel.testframework.constants.ProjectPriority;
 import edu.afts.rukovoditel.testframework.constants.ProjectStatus;
 
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_ADD_PROJECT_BUTTON_SELECTOR;
+//import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_ADD_PROJECT_BUTTON_SELECTOR;
 import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_PROJECT_REMOVE_BUTTON_SELECTOR;
 import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_PROJECT_SEARCH_SUBMIT_BUTTON_SELECTOR;
 import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_PROJECT_TABLE_NAME_SELECTOR;
@@ -41,8 +41,8 @@ public class ProjectsPage extends Page {
     }
 
     public void showAddProjectForm() {
-        driver.findElement(DASH_ADD_PROJECT_BUTTON_SELECTOR)
-                .click();
+//        driver.findElement(DASH_ADD_PROJECT_BUTTON_SELECTOR) TODO
+//                .click();
         waitForElement(PROJECT_MODAL_SELECTOR);
     }
 

@@ -37,7 +37,7 @@ class ProjectTest extends RukovoditelTestBase {
         super.cleanup();
     }
 
-    @Test
+    @Test // TODO FIX THIS
     void testProjectWithoutNameNotCreated() {
         // WHEN
         fixture.showAddProjectForm();
