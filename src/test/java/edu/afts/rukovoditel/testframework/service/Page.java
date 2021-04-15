@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class Page {
 
+    public static final String BASE_PATH = "http://digit107.wwwnlss4.a2hosted.com/rukovoditel";
+
     protected ChromeDriver driver;
     protected WebDriverWait wait;
 

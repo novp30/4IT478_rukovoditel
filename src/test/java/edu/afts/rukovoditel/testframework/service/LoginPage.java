@@ -13,9 +13,9 @@ import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_USER_D
 
 public class LoginPage extends Page {
 
-    private static final String BASE_LOGIN_URI = "https://demoen.rukovoditel.space/index.php?module=users/login";
-    private static final String DEFAULT_USERNAME = "admin";
-    private static final String DEFAULT_PASSWORD = "admin";
+    private static final String BASE_LOGIN_URI = BASE_PATH + "/index.php?module=users/login";
+    private static final String DEFAULT_USERNAME = "rukovoditel";
+    private static final String DEFAULT_PASSWORD = "vse456ru";
 
     public LoginPage(ChromeDriver driver, WebDriverWait wait) {
         super(driver, wait);
