@@ -29,7 +29,7 @@ class Tasks extends RukovoditelTestBase {
         super.setup();
         fixture = new ProjectsPage(driver, wait);
         new LoginPage(driver, wait).loginUser();
-        //creating new project "yourname"? (preconditions)
+        //creating new project "your_name"? (preconditions)
     }
 
     @AfterEach
