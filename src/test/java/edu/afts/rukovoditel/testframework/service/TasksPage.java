@@ -33,10 +33,10 @@ public class TasksPage extends Page {
         driver.findElement(PROJECT_NAME_INPUT_SELECTOR)
                 .sendKeys(projectName);
     }
-    public void setType(TaskType type) {
-        new Select(driver.findElement(TASK_TYPE_SELECT_SELECTOR))
-                .selectByVisibleText(type.value());
-    }
+ //   public void setType(TaskType type) {
+ //       new Select(driver.findElement(TASK_TYPE_SELECT_SELECTOR))
+//                .selectByVisibleText(type.value());
+ //   }
     public void setPriority(TaskPriority priority) {
         new Select(driver.findElement(PROJECT_PRIORITY_SELECT_SELECTOR))
                 .selectByVisibleText(priority.value());
@@ -48,8 +48,8 @@ public class TasksPage extends Page {
     }
 
     public void setDescription(String taskDescription) {
-        driver.findElement(TASK_DESCRIPTION_INPUT_SELECTOR)
-                .sendKeys(taskDescription);
+//        driver.findElement(TASK_DESCRIPTION_INPUT_SELECTOR)
+//                .sendKeys(taskDescription);
     }
 
     public void saveTask() {
