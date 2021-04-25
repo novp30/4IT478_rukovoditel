@@ -31,7 +31,7 @@ import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_SUB
 
 public class ProjectsPage extends Page {
 
-    private static final String BASE_DASHBOARD_URI = BASE_PATH + "/index.php?module=items/items&path=21";
+    public static final String BASE_DASHBOARD_URI = BASE_PATH + "/index.php?module=items/items&path=21";
 
     private List<String> addedProjects = new ArrayList<>();
 
