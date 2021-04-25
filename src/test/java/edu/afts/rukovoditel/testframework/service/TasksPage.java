@@ -1,6 +1,7 @@
 package edu.afts.rukovoditel.testframework.service;
 
 import edu.afts.rukovoditel.testframework.constants.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -13,7 +14,7 @@ import static edu.afts.rukovoditel.testframework.constants.Selectors.*;
 
 public class TasksPage extends Page {
 
-    private static final String BASE_DASHBOARD_URI = BASE_PATH + "/index.php?module=reports/prepare_add_item&reports_id=70";
+    private static final String BASE_DASHBOARD_URI = ProjectsPage.BASE_DASHBOARD_URI;
 
     private List<String> addedTasks = new ArrayList<>();
 
@@ -22,107 +23,103 @@ public class TasksPage extends Page {
         super.getPage(BASE_DASHBOARD_URI);
     }
 
-    public void showAddTaskForm() {
-//        driver.findElement(DASH_ADD_PROJECT_BUTTON_SELECTOR) TODO
-//                .click();
-        waitForElement(PROJECT_MODAL_SELECTOR);
-        //I need to add additional step here to add the task (Add task again in pop-up window)
+    public void showTaskPageForProject() {
+        waitForElement(PROJECT_PAGE_GRID_SELECTOR);
+        driver.findElement(PROJECT_YOURNAME_LINK_SELECTOR).click();
+        waitForElement(TASK_PAGE_GRID_SELECTOR);
     }
 
-    public void setName(String projectName) {
-        driver.findElement(PROJECT_NAME_INPUT_SELECTOR)
-                .sendKeys(projectName);
+    public void showAddTaskForm() {
+        waitForElement(TASK_PAGE_GRID_SELECTOR);
+        driver.findElement(TASK_PAGE_ADD_TASK_BUTTON_SELECTOR).click();
+        waitForElement(TASK_FORM_TITLE_SELECTOR);
     }
- //   public void setType(TaskType type) {
- //       new Select(driver.findElement(TASK_TYPE_SELECT_SELECTOR))
-//                .selectByVisibleText(type.value());
- //   }
+
+    public void setName(String taskName) {
+        driver.findElement(TASK_NAME_INPUT_SELECTOR)
+                .sendKeys(taskName);
+    }
+    public void setType(TaskType type) {
+       new Select(driver.findElement(TASK_TYPE_SELECT_SELECTOR))
+                .selectByVisibleText(type.value());
+   }
     public void setPriority(TaskPriority priority) {
-        new Select(driver.findElement(PROJECT_PRIORITY_SELECT_SELECTOR))
+        new Select(driver.findElement(TASK_PRIORITY_SELECT_SELECTOR))
                 .selectByVisibleText(priority.value());
     }
 
     public void setStatus(TaskStatus status) {
-        new Select(driver.findElement(PROJECT_STATUS_SELECT_SELECTOR))
+        new Select(driver.findElement(TASK_STATUS_SELECT_SELECTOR))
                 .selectByVisibleText(status.value());
     }
 
     public void setDescription(String taskDescription) {
-//        driver.findElement(TASK_DESCRIPTION_INPUT_SELECTOR)
-//                .sendKeys(taskDescription);
+        var iframe = driver.switchTo().frame(0);
+        iframe.findElement(By.xpath("//body[@contenteditable='true']"))
+                .sendKeys(taskDescription);
+        driver.switchTo().defaultContent();
     }
 
-    public void saveTask() {
-        String taskName = driver.findElement(PROJECT_NAME_INPUT_SELECTOR)
-                .getText();
-
+    public void saveTask(String taskName) {
         // save task
-        driver.findElement(PROJECT_SUBMIT_BUTTON_SELECTOR)
+        driver.findElement(TASK_SUBMIT_BUTTON_SELECTOR)
                 .click();
 
-        // check if task was added
-        if (!isElementShown(PROJECT_MODAL_SELECTOR)) {
-            // project was added, save project name for after test cleanup
-            addedTasks.add(taskName);
-        }
-    }
-
-    public void filterTasksTable(String taskName) {
-        waitForElement(PROJECT_SEARCH_INPUT_SELECTOR);
-        driver.findElement(PROJECT_SEARCH_INPUT_SELECTOR)
-                .sendKeys(taskName);
-        driver.findElement(DASH_PROJECT_SEARCH_SUBMIT_BUTTON_SELECTOR)
-                .click();
-    }
-
-    public List<WebElement> getTaskTableRows() {
-        return driver.findElements(DASH_PROJECT_TABLE_SELECTOR);
-    }
-
-    public String getTaskNameFromRow(WebElement webElement) {
-        return webElement.findElement(DASH_PROJECT_TABLE_NAME_SELECTOR)
-                .getText();
-    }
-
-    public boolean isTaskFilterActive() {
-        return isElementShown(DASH_RESET_FILTER);
+        waitForElement(TASK_PAGE_GRID_SELECTOR);
+        addedTasks.add(taskName);
     }
 
     // ## CLEANUP METHODS ##
-    public void removeAddedTasks() {
-        if (isTaskFilterActive()) {
-            resetFilters();
-        }
-
-        for (String addedProject : addedTasks) {
-            filterTasksTable(addedProject);
-            // TODO
-//            removeTasksFromTable();
-        }
-    }
-
-    /**
-     * Removes all rows from tasks table if any search filter is active.
-     */
-    private void removeTasksFromTable() {
-        waitForElement(DASH_RESET_FILTER);
-        List<WebElement> taskTableRows = getTaskTableRows();
-        for (WebElement element : taskTableRows) {
-            element.findElement(DASH_PROJECT_REMOVE_BUTTON_SELECTOR)
-                    .click();
-
-            waitForElement(DELETE_MODAL_SELECTOR);
-            element.findElement(DELETE_CONFIRM_CHECKBOX_SELECTOR)
-                    .click();
-            element.findElement(DELETE_SUBMIT_BUTTON_SELECTOR)
-                    .click();
-        }
-        resetFilters();
-    }
-
-    private void resetFilters() {
-        waitForElement(DASH_RESET_FILTER);
-        driver.findElement(DASH_RESET_FILTER)
+    public void removeTask() {
+        driver.findElementByXPath("//button[contains(text(), 'More Actions')]")
                 .click();
+        driver.findElementByXPath("//a[contains(text(), 'Delete')]")
+                .click();
+        waitForElement(TASK_DELETE_SUBMIT_BUTTON_SELECTOR);
+        driver.findElement(TASK_DELETE_SUBMIT_BUTTON_SELECTOR)
+                .click();
+    }
+
+    public void showTaskInfoPage(String taskName) {
+        driver.findElement(getTaskGridLinkSelectorByName(taskName))
+                .click();
+        waitForElement(TASK_INFO_SELECTOR);
+    }
+
+    public String getTaskNameString() {
+        return driver.findElementByXPath("//div[contains(@class, 'portlet-title')]/div[contains(@class, 'caption')]").getText();
+    }
+
+    public String getTaskTypeString() {
+        return driver.findElementByXPath("//tr[contains(@class, 'form-group-167')]/td/div").getText();
+    }
+
+    public String getTaskStatusString() {
+        return driver.findElementByXPath("//tr[contains(@class, 'form-group-169')]/td/div").getText();
+    }
+
+    public String getTaskPriorityString() {
+        return driver.findElementByXPath("//tr[contains(@class, 'form-group-170')]/td/div").getText();
+    }
+
+    public String getTaskDescriptionString() {
+        return driver.findElementByXPath("//div[contains(@class, 'content_box_content fieldtype_textarea_wysiwyg')]").getText();
+    }
+
+    public void cleanup() {
+        super.getPage(BASE_DASHBOARD_URI);
+        showTaskPageForProject();
+
+        for (var taskName : addedTasks) {
+            if (isElementShown(getTaskGridLinkSelectorByName(taskName)))
+            {
+                showTaskInfoPage(taskName);
+                removeTask();
+            }
+        }
+    }
+
+    public By getTaskGridLinkSelectorByName(String taskName) {
+        return By.xpath("//a[contains(text(), '" + taskName + "')]");
     }
 }
