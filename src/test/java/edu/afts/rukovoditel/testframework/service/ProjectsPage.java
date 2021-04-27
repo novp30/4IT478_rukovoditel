@@ -101,6 +101,10 @@ public class ProjectsPage extends Page {
                 .getText();
     }
 
+    public void getProjectDetail(WebElement webElement) {
+                webElement.click();
+    }
+
     public boolean isProjectFilterActive() {
         return isElementShown(DASH_RESET_FILTER);
     }

@@ -1,40 +1,39 @@
 package edu.afts.rukovoditel.selenium;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import edu.afts.rukovoditel.testframework.constants.TaskPriority;
+import edu.afts.rukovoditel.testframework.constants.TaskStatus;
+import edu.afts.rukovoditel.testframework.constants.TaskType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
 
-import edu.afts.rukovoditel.testframework.constants.ProjectPriority;
-import edu.afts.rukovoditel.testframework.constants.ProjectStatus;
 import edu.afts.rukovoditel.testframework.service.LoginPage;
+import edu.afts.rukovoditel.testframework.service.TasksPage;
 import edu.afts.rukovoditel.testframework.service.ProjectsPage;
 
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_MODAL_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_SEARCH_NOTE_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_NAME_ERROR_CONTAINER_SELECTOR;
+import static edu.afts.rukovoditel.testframework.constants.Selectors.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class Tasks extends RukovoditelTestBase {
+class TasksTest extends RukovoditelTestBase {
 
-    private ProjectsPage fixture;
+    private TasksPage fixture;
 
     @BeforeEach
     public void setup() {
         super.setup();
-        fixture = new ProjectsPage(driver, wait);
+        fixture = new TasksPage(driver, wait);
         new LoginPage(driver, wait).loginUser();
-        //creating new project "your_name"? (preconditions)
     }
 
-    @AfterEach
+    //@AfterEach
     public void cleanup() {
-        fixture.removeAddedProjects();
         super.cleanup();
     }
 
@@ -45,6 +44,58 @@ class Tasks extends RukovoditelTestBase {
 
     @Test
     void newSevenTasks() {
+    //given
+    List<String> names = Arrays.asList("1", "2", "3", "3", "5", "6", "7");
+    List<String> descriptions = Arrays.asList("descr", "descr", "descr", "descr", "descr", "descr", "descr");
+    List<String> validStatuses = Arrays.asList("New", "Open", "Waiting");
+    List<String> allStatuses = Arrays.asList("New", "Open", "Waiting", "Closed", "Canceled", "Done", "Paid");
+    List<String> filtersToAdd = Arrays.asList("New", "Waiting");
+    int expectedNumberOfTasks = validStatuses.size();
+    //when
+        for (int i=0; i<names.size();i++) {
+            TaskStatus status = TaskStatus.values()[i];
+            TaskPriority priority = TaskPriority.values()[1];
+            TaskType type = TaskType.values()[0];
+            fixture.addTask();
+            fixture.waitForElement(NAME_INPUT_SELECTOR);
+            fixture.setName(names.get(i));
+            fixture.setType(type);
+            fixture.setStatus(status);
+            fixture.setDescription(descriptions.get(i));
+            fixture.setPriority(priority);
+            fixture.saveTask();
+            fixture.waitForElement(ADD_TASK_BUTTON_SELECTOR);
+        }
+        driver.navigate().refresh();
+        List<String> actualStatuses = fixture.getTaskStatusesFromTable();
+        int actualNumberOfTasks = fixture.getTaskTableRows().size();
+
+    //then
+        assertTrue(fixture.areValidStatusesInTable(actualStatuses, validStatuses, actualNumberOfTasks, expectedNumberOfTasks));
+
+        //when
+
+        fixture.editFilterOptions(filtersToAdd);
+        //then
+        actualStatuses.clear();
+        actualStatuses = fixture.getTaskStatusesFromTable();
+        actualNumberOfTasks = fixture.getTaskTableRows().size();
+        assertTrue(fixture.areValidStatusesInTable(actualStatuses, filtersToAdd, actualNumberOfTasks, filtersToAdd.size()));
+
+        //when
+        fixture.deleteAllFilters();
+        actualStatuses.clear();
+        actualStatuses = fixture.getTaskStatusesFromTable();
+        actualNumberOfTasks = fixture.getTaskTableRows().size();
+
+
+        //then
+        assertTrue(fixture.areValidStatusesInTable(actualStatuses, allStatuses, actualNumberOfTasks, allStatuses.size()));
+
+        //cleanup
+        fixture.removeAddedTasks();
+        fixture.addDefaultFilters();
+
 
     }
 
