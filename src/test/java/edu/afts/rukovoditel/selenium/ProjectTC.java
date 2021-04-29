@@ -23,8 +23,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ProjectTC {
     private ChromeDriver driver;
-    private String baseUrl;
-    private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
     private WebDriverWait wait = null;
 
