@@ -10,6 +10,7 @@ import edu.afts.rukovoditel.testframework.constants.TaskType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import edu.afts.rukovoditel.testframework.service.LoginPage;
@@ -29,7 +30,8 @@ class TasksTest extends RukovoditelTestBase {
     public void setup() {
         super.setup();
         fixture = new TasksPage(driver, wait);
-        new LoginPage(driver, wait).loginUser();
+        new LoginPage(driver, wait)
+            .loginUser();
     }
 
     //@AfterEach
@@ -38,20 +40,15 @@ class TasksTest extends RukovoditelTestBase {
     }
 
     @Test
-    void newTask() {
-
-    }
-
-    @Test
     void newSevenTasks() {
-    //given
-    List<String> names = Arrays.asList("1", "2", "3", "3", "5", "6", "7");
-    List<String> descriptions = Arrays.asList("descr", "descr", "descr", "descr", "descr", "descr", "descr");
-    List<String> validStatuses = Arrays.asList("New", "Open", "Waiting");
-    List<String> allStatuses = Arrays.asList("New", "Open", "Waiting", "Closed", "Canceled", "Done", "Paid");
-    List<String> filtersToAdd = Arrays.asList("New", "Waiting");
-    int expectedNumberOfTasks = validStatuses.size();
-    //when
+        //given
+        List<String> names = Arrays.asList("1", "2", "3", "3", "5", "6", "7");
+        List<String> descriptions = Arrays.asList("descr", "descr", "descr", "descr", "descr", "descr", "descr");
+        List<String> validStatuses = Arrays.asList("New", "Open", "Waiting");
+        List<String> allStatuses = Arrays.asList("New", "Open", "Waiting", "Closed", "Canceled", "Done", "Paid");
+        List<String> filtersToAdd = Arrays.asList("New", "Waiting");
+        int expectedNumberOfTasks = validStatuses.size();
+        //when
         for (int i=0; i<names.size();i++) {
             TaskStatus status = TaskStatus.values()[i];
             TaskPriority priority = TaskPriority.values()[1];
@@ -66,11 +63,14 @@ class TasksTest extends RukovoditelTestBase {
             fixture.saveTask();
             fixture.waitForElement(ADD_TASK_BUTTON_SELECTOR);
         }
-        driver.navigate().refresh();
+        driver.navigate()
+            .refresh();
+
+        fixture.waitForElement(By.cssSelector("td.fieldtype_action"));
         List<String> actualStatuses = fixture.getTaskStatusesFromTable();
         int actualNumberOfTasks = fixture.getTaskTableRows().size();
 
-    //then
+        //then
         assertTrue(fixture.areValidStatusesInTable(actualStatuses, validStatuses, actualNumberOfTasks, expectedNumberOfTasks));
 
         //when
@@ -78,13 +78,16 @@ class TasksTest extends RukovoditelTestBase {
         fixture.editFilterOptions(filtersToAdd);
         //then
         actualStatuses.clear();
+        fixture.waitForElement(By.cssSelector("td.fieldtype_action"));
         actualStatuses = fixture.getTaskStatusesFromTable();
         actualNumberOfTasks = fixture.getTaskTableRows().size();
+
         assertTrue(fixture.areValidStatusesInTable(actualStatuses, filtersToAdd, actualNumberOfTasks, filtersToAdd.size()));
 
         //when
         fixture.deleteAllFilters();
         actualStatuses.clear();
+        fixture.waitForElement(By.cssSelector("td.fieldtype_action"));
         actualStatuses = fixture.getTaskStatusesFromTable();
         actualNumberOfTasks = fixture.getTaskTableRows().size();
 
@@ -95,8 +98,5 @@ class TasksTest extends RukovoditelTestBase {
         //cleanup
         fixture.removeAddedTasks();
         fixture.addDefaultFilters();
-
-
     }
-
 }

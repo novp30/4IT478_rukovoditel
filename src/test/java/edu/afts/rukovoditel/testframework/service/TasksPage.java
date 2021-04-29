@@ -20,7 +20,7 @@ import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_RESET_
 
 public class TasksPage extends Page {
 
-    private static final String BASE_TASKS_URI = "http://digit107.wwwnlss4.a2hosted.com/rukovoditel/index.php?module=items/items&path=21-2929/22";
+    private static final String BASE_TASKS_URI =  BASE_PATH + "/index.php?module=items/items&path=21-2929/22";
 
     private List<String> statuses = new ArrayList<>();
 
@@ -71,17 +71,19 @@ public class TasksPage extends Page {
     }
 
     public List<String> getTaskStatusesFromTable() {
-        for(int i=0; i<getTaskTableRows().size();i++){
-            WebElement row = getTaskTableRows().get(i);
-            statuses.add(row.findElement(By.cssSelector(".field-169-td.fieldtype_dropdown div")).getText());
+        for (WebElement row : getTaskTableRows()) {
+            statuses.add(row.findElement(By.cssSelector(".field-169-td.fieldtype_dropdown div"))
+                .getText());
         }
         return statuses;
     }
 
-    public boolean areValidStatusesInTable(List<String> actualStatuses, List<String> validStatuses, int actualNumberOfTasks, int expectedNumberOfTasks){
-        if (actualNumberOfTasks == expectedNumberOfTasks && validStatuses.equals(actualStatuses)){
-            return true;
-        } else return false;
+    public boolean areValidStatusesInTable(List<String> actualStatuses,
+                                            List<String> validStatuses,
+                                            int actualNumberOfTasks,
+                                            int expectedNumberOfTasks) {
+        return actualNumberOfTasks == expectedNumberOfTasks
+            && validStatuses.equals(actualStatuses);
     }
 
     public void editFilterOptions(List<String> filtersToAdd){
@@ -92,20 +94,22 @@ public class TasksPage extends Page {
             driver.findElement(DELETE_FILTER_OPTIONS)
                     .click();
         }
+
         driver.findElement(FILTER_EDIT_SAVE_BUTTON_SELECTOR)
                 .click();
         driver.findElement(EDIT_DEFAULT_FILTERS_SELECTOR)
                 .click();
         super.waitForElement(FILTER_STATUS_SELECT_SELECTOR);
-        for (int i=0; i<filtersToAdd.size(); i++){
-        WebElement select = driver.findElement(FILTER_STATUS_SELECT_SELECTOR);
-        WebElement selectSearchInput = driver.findElementByCssSelector(".chosen-choices > li > input");
-                        selectSearchInput.clear();
-                        selectSearchInput.sendKeys(filtersToAdd.get(i));
-                  super.waitForElement(By.cssSelector("li.active-result"));
-                  selectSearchInput.sendKeys(Keys.ENTER);
-           // new Select(select)
-           //         .selectByVisibleText(filtersToAdd.get(i));
+
+        for (String filter : filtersToAdd) {
+            WebElement select = driver.findElement(FILTER_STATUS_SELECT_SELECTOR);
+            WebElement selectSearchInput = driver.findElementByCssSelector(".chosen-choices > li > input");
+            selectSearchInput.clear();
+            selectSearchInput.sendKeys(filter);
+            super.waitForElement(By.cssSelector("li.active-result"));
+            selectSearchInput.sendKeys(Keys.ENTER);
+            // new Select(select)
+            //         .selectByVisibleText(filtersToAdd.get(i));
         }
         driver.findElement(FILTER_EDIT_SAVE_BUTTON_SELECTOR)
                 .click();
@@ -134,8 +138,8 @@ public class TasksPage extends Page {
         WebElement target = driver.findElement(FILTER_SECTION_DROPDOWN_SELECTOR);
         actions.moveToElement(target).perform();
         super.waitForElement(ADD_DEFAULT_FILTERS_BUTTON);
-                driver.findElement(ADD_DEFAULT_FILTERS_BUTTON)
-                .click();
+        driver.findElement(ADD_DEFAULT_FILTERS_BUTTON)
+            .click();
     }
 
 }
