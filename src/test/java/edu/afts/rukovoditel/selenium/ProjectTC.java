@@ -9,6 +9,7 @@ import static edu.afts.rukovoditel.testframework.constants.Selectors.DEFAULT_PRO
 import static edu.afts.rukovoditel.testframework.constants.Selectors.LOGIN_LOGIN_BUTTON_SELECTOR;
 import static org.junit.Assert.*;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -33,9 +34,10 @@ public class ProjectTC {
         baseUrl = "https://www.google.com/";
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 10);
+        new LoginPage(driver, wait).loginUser();
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         driver.quit();
         String verificationErrorString = verificationErrors.toString();
@@ -44,23 +46,29 @@ public class ProjectTC {
         }
     }
     @Test
-    public void ProjectTC() throws Exception {
-
-        driver.get("http://digit107.wwwnlss4.a2hosted.com/rukovoditel/index.php?module=users/login");
-        LoginPage page = new LoginPage(driver, wait);
-        page.loginUser();
+    public void tc2() throws Exception {
+        
+        //GIVEN
         assertEquals("Rukovoditel | Dashboard", driver.getTitle());
         int count = 0;
-        //go to projects
+
+        //WHEN
+        //go to projects page
         ProjectsPage projectsPage = new ProjectsPage(driver, wait);
         projectsPage.filterProjectsTable(DEFAULT_PROJECT_NAME);
         count = projectsPage.getProjectsCount();
+
+        //show form and create project
         projectsPage.showAddProjectForm();
         projectsPage.setName(DEFAULT_PROJECT_NAME);
         projectsPage.setPriority(ProjectPriority.HIGH);
         projectsPage.setTodayStartDate();
         projectsPage.setStatus(ProjectStatus.NEW);
+
+        //save project
         projectsPage.saveProject();
+
+        //THEN
         projectsPage.getPage(ProjectsPage.BASE_DASHBOARD_URI);
         assertEquals("Rukovoditel | Projects", driver.getTitle());
         projectsPage.filterProjectsTable(DEFAULT_PROJECT_NAME);
