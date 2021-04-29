@@ -44,7 +44,7 @@ public class ProjectTC {
         }
     }
     @Test
-    public void tc2() throws Exception {
+    public void ProjectTC() throws Exception {
 
         driver.get("http://digit107.wwwnlss4.a2hosted.com/rukovoditel/index.php?module=users/login");
         LoginPage page = new LoginPage(driver, wait);
