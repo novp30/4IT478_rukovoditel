@@ -1,31 +1,29 @@
 package edu.afts.rukovoditel.testframework.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ThreadPoolExecutor;
-
+import edu.afts.rukovoditel.testframework.constants.ProjectPriority;
+import edu.afts.rukovoditel.testframework.constants.ProjectStatus;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import edu.afts.rukovoditel.testframework.constants.ProjectPriority;
-import edu.afts.rukovoditel.testframework.constants.ProjectStatus;
+import java.util.List;
 
-//import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_ADD_PROJECT_BUTTON_SELECTOR;
 import static edu.afts.rukovoditel.testframework.constants.Selectors.*;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProjectsPage extends Page {
 
-    public static final String BASE_DASHBOARD_URI = BASE_PATH + "/index.php?module=items/items&path=21";
-
-    private List<String> addedProjects = new ArrayList<>();
+    public static final String BASE_PROJECTS_URI = BASE_PATH + "/index.php?module=items/items&path=21";
+    public static final String PROJECT_PAGE_TITLE = "Rukovoditel | Projects";
 
     public ProjectsPage(ChromeDriver driver, WebDriverWait wait) {
         super(driver, wait);
-        super.getPage(BASE_DASHBOARD_URI);
+    }
+
+    public void open() {
+        super.getPage(BASE_PROJECTS_URI);
+        assertEquals(PROJECT_PAGE_TITLE, driver.getTitle());
     }
 
     public void showAddProjectForm() {
@@ -58,18 +56,9 @@ public class ProjectsPage extends Page {
     }
 
     public void saveProject() {
-        String projectName = driver.findElement(PROJECT_NAME_INPUT_SELECTOR)
-                .getText();
-
         // save project
         driver.findElement(PROJECT_SUBMIT_BUTTON_SELECTOR)
                 .click();
-
-        // check if project was added
-        if (!isElementShown(PROJECT_MODAL_SELECTOR)) {
-            // project was added, save project name for after test cleanup
-            addedProjects.add(projectName);
-        }
     }
 
     public void filterProjectsTable(String projectName) {
@@ -100,23 +89,23 @@ public class ProjectsPage extends Page {
         return isElementShown(DASH_RESET_FILTER);
     }
 
-
-
     /**
      * Removes all rows from projects table if any search filter is active.
      */
     public void removeProjectsFromTable() throws InterruptedException {
         waitForElement(DASH_RESET_FILTER);
-        if(isProjectFilterActive()) resetFilters();
+        if (isProjectFilterActive()) {
+            resetFilters();
+        }
         filterProjectsTable(DEFAULT_PROJECT_NAME);
 
         waitForElement(DASH_DELETE_ALL_SELECTED);
-       Thread.sleep(1000);
         driver.findElement(DASH_DELETE_ALL_SELECTED).click();
         driver.findElement(DASH_DROPDOWN_SELECTED).click();
         waitForElement(DASH_DELETE_SELECTED);
         driver.findElement(DASH_DELETE_SELECTED).click();
         waitForElement(DASH_DELETE_SELECTED_BUTTON);
+        driver.findElement(DELETE_CONFIRM_CHECKBOX_SELECTOR).click();
         driver.findElement(DASH_DELETE_SELECTED_BUTTON).click();
         resetFilters();
     }

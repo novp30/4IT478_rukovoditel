@@ -40,7 +40,7 @@ public class Selectors {
     public static final By DASH_PROJECTS_COUNT = By.cssSelector("#entity_items_listing66_21 > div.row > div.col-md-5 > nobr:nth-child(2) > strong");
     // DELETE MODAL
     public static final By DELETE_MODAL_SELECTOR = By.xpath("//h4[contains(text(), 'Delete?')]");
-    public static final By DELETE_CONFIRM_CHECKBOX_SELECTOR = By.cssSelector("input[@id='delete_confirm']");
+    public static final By DELETE_CONFIRM_CHECKBOX_SELECTOR = By.cssSelector("input#delete_confirm");
     public static final By DELETE_SUBMIT_BUTTON_SELECTOR = By.xpath("//button[contains(text(), 'Delete')]");
 
     // DEFAULT VALUES
