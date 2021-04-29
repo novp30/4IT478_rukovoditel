@@ -2,9 +2,11 @@ package edu.afts.rukovoditel.testframework.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -12,26 +14,12 @@ import edu.afts.rukovoditel.testframework.constants.ProjectPriority;
 import edu.afts.rukovoditel.testframework.constants.ProjectStatus;
 
 //import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_ADD_PROJECT_BUTTON_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_PROJECT_REMOVE_BUTTON_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_PROJECT_SEARCH_SUBMIT_BUTTON_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_PROJECT_TABLE_NAME_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_PROJECT_TABLE_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_RESET_FILTER;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DELETE_CONFIRM_CHECKBOX_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DELETE_MODAL_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DELETE_SUBMIT_BUTTON_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_DATE_ACTIVE_DAY_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_DATE_SET_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_MODAL_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_NAME_INPUT_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_PRIORITY_SELECT_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_SEARCH_INPUT_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_STATUS_SELECT_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_SUBMIT_BUTTON_SELECTOR;
+import static edu.afts.rukovoditel.testframework.constants.Selectors.*;
+
 
 public class ProjectsPage extends Page {
 
-    private static final String BASE_DASHBOARD_URI = BASE_PATH + "/index.php?module=items/items&path=21";
+    public static final String BASE_DASHBOARD_URI = BASE_PATH + "/index.php?module=items/items&path=21";
 
     private List<String> addedProjects = new ArrayList<>();
 
@@ -41,8 +29,8 @@ public class ProjectsPage extends Page {
     }
 
     public void showAddProjectForm() {
-//        driver.findElement(DASH_ADD_PROJECT_BUTTON_SELECTOR) TODO
-//                .click();
+        driver.findElement(DASH_ADD_PROJECT_BUTTON_SELECTOR)
+                .click();
         waitForElement(PROJECT_MODAL_SELECTOR);
     }
 
@@ -86,13 +74,20 @@ public class ProjectsPage extends Page {
 
     public void filterProjectsTable(String projectName) {
         waitForElement(PROJECT_SEARCH_INPUT_SELECTOR);
+        driver.findElement(PROJECT_SEARCH_INPUT_SELECTOR).clear();
         driver.findElement(PROJECT_SEARCH_INPUT_SELECTOR)
                 .sendKeys(projectName);
         driver.findElement(DASH_PROJECT_SEARCH_SUBMIT_BUTTON_SELECTOR)
                 .click();
+        waitForElement(DASH_RESET_FILTER);
+    }
+    public int getProjectsCount() {
+        String text = driver.findElement(DASH_PROJECTS_COUNT).getText();
+        return Integer.parseInt(text);
     }
 
     public List<WebElement> getProjectTableRows() {
+        waitForElement(DASH_RESET_FILTER);
         return driver.findElements(DASH_PROJECT_TABLE_SELECTOR);
     }
 
@@ -105,35 +100,24 @@ public class ProjectsPage extends Page {
         return isElementShown(DASH_RESET_FILTER);
     }
 
-    // ## CLEANUP METHODS ##
-    public void removeAddedProjects() {
-        if (isProjectFilterActive()) {
-            resetFilters();
-        }
 
-        for (String addedProject : addedProjects) {
-            filterProjectsTable(addedProject);
-            // TODO
-//            removeProjectsFromTable();
-        }
-    }
 
     /**
      * Removes all rows from projects table if any search filter is active.
      */
-    private void removeProjectsFromTable() {
+    public void removeProjectsFromTable() throws InterruptedException {
         waitForElement(DASH_RESET_FILTER);
-        List<WebElement> projectTableRows = getProjectTableRows();
-        for (WebElement element : projectTableRows) {
-            element.findElement(DASH_PROJECT_REMOVE_BUTTON_SELECTOR)
-                    .click();
+        if(isProjectFilterActive()) resetFilters();
+        filterProjectsTable(DEFAULT_PROJECT_NAME);
 
-            waitForElement(DELETE_MODAL_SELECTOR);
-            element.findElement(DELETE_CONFIRM_CHECKBOX_SELECTOR)
-                    .click();
-            element.findElement(DELETE_SUBMIT_BUTTON_SELECTOR)
-                    .click();
-        }
+        waitForElement(DASH_DELETE_ALL_SELECTED);
+       Thread.sleep(1000);
+        driver.findElement(DASH_DELETE_ALL_SELECTED).click();
+        driver.findElement(DASH_DROPDOWN_SELECTED).click();
+        waitForElement(DASH_DELETE_SELECTED);
+        driver.findElement(DASH_DELETE_SELECTED).click();
+        waitForElement(DASH_DELETE_SELECTED_BUTTON);
+        driver.findElement(DASH_DELETE_SELECTED_BUTTON).click();
         resetFilters();
     }
 

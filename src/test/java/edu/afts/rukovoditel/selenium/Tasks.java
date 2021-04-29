@@ -33,8 +33,12 @@ class Tasks extends RukovoditelTestBase {
     }
 
     @AfterEach
-    public void cleanup() {
-        fixture.removeAddedProjects();
+    public void cleanup()  {
+        try {
+            fixture.removeProjectsFromTable();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         super.cleanup();
     }
 
