@@ -32,10 +32,14 @@ class LoginTest extends RukovoditelTestBase {
 
     @Test
     void testLogoutUser() {
+        // GIVEN
         fixture.loginUser();
         assertTrue(fixture.isLoggedIn());
 
+        // WHEN
         fixture.logoutUser();
+
+        // THEN
         assertFalse(fixture.isLoggedIn());
     }
 }

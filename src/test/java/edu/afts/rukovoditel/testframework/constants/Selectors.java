@@ -31,7 +31,7 @@ public class Selectors {
             By.cssSelector(".listing-search-form button[title='Search']");
     public static final By DASH_PROJECT_TABLE_SELECTOR = By.cssSelector("#entity_items_listing69_21 tbody tr");
     public static final By DASH_SEARCH_NOTE_SELECTOR = By.cssSelector(".search-notes");
-//    public static final By DASH_ADD_PROJECT_BUTTON_SELECTOR = By.cssSelector(""); TODO
+    public static final By DASH_ADD_PROJECT_BUTTON_SELECTOR = By.cssSelector(".entitly-listing-buttons-left .btn-primary");
     public static final By PROJECT_SEARCH_INPUT_SELECTOR = By.id("entity_items_listing69_21_search_keywords");
 
     // TASKS

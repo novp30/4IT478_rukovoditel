@@ -11,23 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import edu.afts.rukovoditel.testframework.constants.ProjectPriority;
 import edu.afts.rukovoditel.testframework.constants.ProjectStatus;
 
-//import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_ADD_PROJECT_BUTTON_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_PROJECT_REMOVE_BUTTON_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_PROJECT_SEARCH_SUBMIT_BUTTON_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_PROJECT_TABLE_NAME_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_PROJECT_TABLE_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_RESET_FILTER;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DELETE_CONFIRM_CHECKBOX_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DELETE_MODAL_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DELETE_SUBMIT_BUTTON_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_DATE_ACTIVE_DAY_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_DATE_SET_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_MODAL_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_NAME_INPUT_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_PRIORITY_SELECT_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_SEARCH_INPUT_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_STATUS_SELECT_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_SUBMIT_BUTTON_SELECTOR;
+import static edu.afts.rukovoditel.testframework.constants.Selectors.*;
 
 public class ProjectsPage extends Page {
 
@@ -41,8 +25,8 @@ public class ProjectsPage extends Page {
     }
 
     public void showAddProjectForm() {
-//        driver.findElement(DASH_ADD_PROJECT_BUTTON_SELECTOR) TODO
-//                .click();
+        driver.findElement(DASH_ADD_PROJECT_BUTTON_SELECTOR)
+                .click();
         waitForElement(PROJECT_MODAL_SELECTOR);
     }
 
