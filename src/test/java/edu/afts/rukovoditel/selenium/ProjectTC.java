@@ -1,18 +1,24 @@
 package edu.afts.rukovoditel.selenium;
-import java.util.concurrent.TimeUnit;
+
 import edu.afts.rukovoditel.testframework.constants.ProjectPriority;
 import edu.afts.rukovoditel.testframework.constants.ProjectStatus;
 import edu.afts.rukovoditel.testframework.service.LoginPage;
 import edu.afts.rukovoditel.testframework.service.ProjectsPage;
-import org.junit.*;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DEFAULT_PROJECT_NAME;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.LOGIN_LOGIN_BUTTON_SELECTOR;
-import static org.junit.Assert.*;
-import org.openqa.selenium.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.concurrent.TimeUnit;
+
+import static edu.afts.rukovoditel.testframework.constants.Selectors.DEFAULT_PROJECT_NAME;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 // - TC: Project with status New, priority High and filled start date as today is created.
 // Verify that there is new row in project table. Delete project after test.
@@ -25,7 +31,7 @@ public class ProjectTC {
     private StringBuffer verificationErrors = new StringBuffer();
     private WebDriverWait wait = null;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         driver = new ChromeDriver();
         baseUrl = "https://www.google.com/";
@@ -62,7 +68,7 @@ public class ProjectTC {
     }
 
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         driver.quit();
         String verificationErrorString = verificationErrors.toString();
