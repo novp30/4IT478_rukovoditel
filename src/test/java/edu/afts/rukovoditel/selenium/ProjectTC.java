@@ -46,7 +46,7 @@ public class ProjectTC {
         }
     }
     @Test
-    public void tc2() throws Exception {
+    public void ProjectTC() throws Exception {
         
         //GIVEN
         assertEquals("Rukovoditel | Dashboard", driver.getTitle());
