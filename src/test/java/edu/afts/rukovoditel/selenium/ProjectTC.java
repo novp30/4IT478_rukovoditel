@@ -34,30 +34,23 @@ public class ProjectTC {
     }
 
     @Test
-    public void tc2() throws Exception {
-        //GIVEN
+    public void ProjectTC() throws Exception {
         driver.get("http://digit107.wwwnlss4.a2hosted.com/rukovoditel/index.php?module=users/login");
         LoginPage page = new LoginPage(driver, wait);
         page.loginUser();
         assertEquals("Rukovoditel | Dashboard", driver.getTitle());
         int count = 0;
-        //WHEN
-        //go to projects page
+
+        //go to projects
         ProjectsPage projectsPage = new ProjectsPage(driver, wait);
         projectsPage.filterProjectsTable(DEFAULT_PROJECT_NAME);
         count = projectsPage.getProjectsCount();
-
-        //show form and create project
         projectsPage.showAddProjectForm();
         projectsPage.setName(DEFAULT_PROJECT_NAME);
         projectsPage.setPriority(ProjectPriority.HIGH);
         projectsPage.setTodayStartDate();
         projectsPage.setStatus(ProjectStatus.NEW);
-
-        //save project
         projectsPage.saveProject();
-
-        //THEN
         projectsPage.getPage(ProjectsPage.BASE_DASHBOARD_URI);
         assertEquals("Rukovoditel | Projects", driver.getTitle());
         projectsPage.filterProjectsTable(DEFAULT_PROJECT_NAME);
