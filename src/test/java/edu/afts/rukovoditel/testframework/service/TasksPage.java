@@ -14,13 +14,13 @@ import static edu.afts.rukovoditel.testframework.constants.Selectors.*;
 
 public class TasksPage extends Page {
 
-    private static final String BASE_DASHBOARD_URI = ProjectsPage.BASE_DASHBOARD_URI;
+//    private static final String BASE_DASHBOARD_URI = BASE_PATH + ;
 
     private List<String> addedTasks = new ArrayList<>();
 
     public TasksPage(ChromeDriver driver, WebDriverWait wait) {
         super(driver, wait);
-        super.getPage(BASE_DASHBOARD_URI);
+//        super.getPage(BASE_DASHBOARD_URI);
     }
 
     public void showTaskPageForProject() {
@@ -107,7 +107,7 @@ public class TasksPage extends Page {
     }
 
     public void cleanup() {
-        super.getPage(BASE_DASHBOARD_URI);
+//        super.getPage(BASE_DASHBOARD_URI);
         showTaskPageForProject();
 
         for (var taskName : addedTasks) {
