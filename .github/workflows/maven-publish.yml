@@ -7,6 +7,10 @@ on:
   release:
     types: [created]
 
+schedule:
+    # run tests every day at 12 am and 12 pm UTC
+    - cron:  '* /12 * * *'
+
 jobs:
   build:
 
