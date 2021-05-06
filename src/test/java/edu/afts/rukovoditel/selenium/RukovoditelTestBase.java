@@ -22,7 +22,7 @@ public abstract class RukovoditelTestBase {
     @BeforeEach
     public void setup() {
         driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, 1);
+        wait = new WebDriverWait(driver, 7);
     }
 
     @AfterEach
