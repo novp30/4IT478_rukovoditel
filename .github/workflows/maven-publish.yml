@@ -5,7 +5,7 @@ name: Maven Package
 on:
 # runs tests for commits pushed to master
   push:
-    branches: [ testovaci ]
+    branches: [ master ]
     # do not run tests if file README.md changes
     
     paths-ignore:
@@ -13,7 +13,7 @@ on:
     # run tests for GitHub Pull requests. Test result is visible in the Pull Request page.
 
   pull_request:
-    branches: [ testovaci ]
+    branches: [ master ]
 
     paths-ignore:
       - 'README.md'
