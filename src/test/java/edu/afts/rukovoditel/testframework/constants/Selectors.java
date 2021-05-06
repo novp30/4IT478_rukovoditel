@@ -31,6 +31,27 @@ public class Selectors {
             By.cssSelector(".listing-search-form button[title='Search']");
     public static final By DASH_PROJECT_TABLE_SELECTOR = By.cssSelector("#entity_items_listing66_21 tbody tr");
     public static final By DASH_SEARCH_NOTE_SELECTOR = By.cssSelector(".search-notes");
+    public static final By DASH_ADD_PROJECT_BUTTON_SELECTOR = By.cssSelector(".entitly-listing-buttons-left .btn-primary");
+    public static final By PROJECT_SEARCH_INPUT_SELECTOR = By.id("entity_items_listing69_21_search_keywords");
+
+    // TASKS
+
+    public static final By PROJECT_PAGE_GRID_SELECTOR = By.xpath("//div[contains(text(), 'Action')]");
+    public static final By PROJECT_YOURNAME_LINK_SELECTOR = By.xpath("//a[contains(text(), 'yourname')]");
+    public static final By TASK_FORM_TITLE_SELECTOR = By.xpath("//h4[contains(text(), 'Task Info')]");
+    ////
+    public static final By TASK_PAGE_GRID_SELECTOR = By.xpath("//div[contains(text(), 'Action')]");
+    public static final By TASK_PAGE_ADD_TASK_BUTTON_SELECTOR = By.xpath("//button[contains(text(), 'Add Task')]");
+    public static final By TASK_PAGE_ADD_TASK_BUTTON_SELECTOR_ALTERNATIVE =
+            By.cssSelector(".entitly-listing-buttons-left button[title='Add Task']");
+    public static final By TASK_NAME_INPUT_SELECTOR = By.id("fields_168");
+    public static final By TASK_PRIORITY_SELECT_SELECTOR = By.id("fields_170");
+    public static final By TASK_STATUS_SELECT_SELECTOR = By.id("fields_169");
+    public static final By TASK_TYPE_SELECT_SELECTOR = By.id("fields_167");
+    public static final By TASK_SUBMIT_BUTTON_SELECTOR = By.cssSelector("button[type='submit']");
+    public static final By TASK_INFO_SELECTOR = By.xpath("//h4[contains(text(), 'Info')]");
+    public static final By TASK_DELETE_SUBMIT_BUTTON_SELECTOR = By.xpath("//button[contains(text(), 'Delete')]");
+
     public static final By DASH_ADD_PROJECT_BUTTON_SELECTOR = By.cssSelector(".entitly-listing-buttons-left > button");
     public static final By PROJECT_SEARCH_INPUT_SELECTOR = By.id("entity_items_listing66_21_search_keywords");
     public static final By DASH_DELETE_ALL_SELECTED = By.id("select_all_items");
