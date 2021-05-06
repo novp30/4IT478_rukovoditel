@@ -2,18 +2,19 @@
 # For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
 
 name: Maven Package
-
-#runs  tests for push-events, for pull requests and using cron schedule:
 on:
+# runs tests for commits pushed to master
   push:
-    # runs tests for commits pushed to master
-    branches:
-      - testovaci
+    branches: [ master ]
     # do not run tests if file README.md changes
+    
     paths-ignore:
       - 'README.md'
     # run tests for GitHub Pull requests. Test result is visible in the Pull Request page.
+
   pull_request:
+    branches: [ master ]
+
     paths-ignore:
       - 'README.md'
 
@@ -31,10 +32,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK 11
+    - name: Set up JDK 14
       uses: actions/setup-java@v2
       with:
-        java-version: '11'
+        java-version: '14'
         distribution: 'adopt'
         server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
         settings-path: ${{ github.workspace }} # location for the settings.xml file
