@@ -34,7 +34,7 @@ class TasksTest extends RukovoditelTestBase {
             .loginUser();
     }
 
-    //@AfterEach
+    @AfterEach
     public void cleanup() {
         super.cleanup();
     }

@@ -20,7 +20,7 @@ import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_RESET_
 
 public class TasksPage extends Page {
 
-    private static final String BASE_TASKS_URI =  BASE_PATH + "/index.php?module=items/items&path=21-2929/22";
+    private static final String BASE_TASKS_URI =  BASE_PATH + "/index.php?module=items/items&path=21-3180/22";
 
     private List<String> statuses = new ArrayList<>();
 
