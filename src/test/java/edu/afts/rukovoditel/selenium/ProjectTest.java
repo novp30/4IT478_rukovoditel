@@ -33,11 +33,15 @@ class ProjectTest extends RukovoditelTestBase {
 
     @AfterEach
     public void cleanup() {
-        fixture.removeAddedProjects();
+        try {
+            fixture.removeProjectsFromTable();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         super.cleanup();
     }
 
-    @Test // TODO FIX THIS
+    @Test
     void testProjectWithoutNameNotCreated() {
         // WHEN
         fixture.showAddProjectForm();
