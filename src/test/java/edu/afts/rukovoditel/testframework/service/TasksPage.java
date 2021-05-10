@@ -1,5 +1,7 @@
 package edu.afts.rukovoditel.testframework.service;
 
+import edu.afts.rukovoditel.testframework.constants.ProjectPriority;
+import edu.afts.rukovoditel.testframework.constants.ProjectStatus;
 import edu.afts.rukovoditel.testframework.constants.TaskPriority;
 import edu.afts.rukovoditel.testframework.constants.TaskStatus;
 import edu.afts.rukovoditel.testframework.constants.TaskType;
@@ -12,15 +14,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.Keys;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import static edu.afts.rukovoditel.testframework.constants.Selectors.*;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_RESET_FILTER;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TasksPage extends Page {
 
     private static final String BASE_TASKS_URI = BASE_PATH + "/index.php?module=items/items&path=21-3180/22";
+    private final ProjectsPage projectsPage;
 
     private List<String> statuses = new ArrayList<>();
 
@@ -28,6 +32,10 @@ public class TasksPage extends Page {
 
     public TasksPage(ChromeDriver driver, WebDriverWait wait) {
         super(driver, wait);
+        this.projectsPage = new ProjectsPage(driver, wait);
+    }
+
+    public void open() {
         super.getPage(BASE_TASKS_URI);
     }
 
@@ -52,11 +60,15 @@ public class TasksPage extends Page {
     }
 
     public void setDescription(String taskDescription) {
-        driver.findElement(DESCRIPTION_EDITOR_SELECTOR).sendKeys(taskDescription);
+        driver.switchTo().frame(driver.findElementByXPath("//*[@id='cke_1_contents']/iframe"));
+        WebElement element = driver.findElement(By.cssSelector("body"));
+        element.sendKeys(taskDescription);
+        driver.switchTo().defaultContent();
     }
 
     public void saveTask() {
         driver.findElement(SAVE_BUTTON_SELECTOR).click();
+        waitForElement(TASK_PAGE_GRID_SELECTOR);
     }
 
     public List<WebElement> getTaskTableRows() {
@@ -103,9 +115,10 @@ public class TasksPage extends Page {
     // ## CLEANUP METHODS ##
     public void removeAddedTasks() {
         driver.findElement(BULK_SELECT_ALL_CHECKBOX_SELECTOR).click();
-        WebElement target = driver.findElement(BULK_ACTIONS_OPTIONS_DROPDOWN_SELECTOR);
-        actions.moveToElement(target).perform();
-        super.waitForElement(BULK_ACTIONS_OPTIONS_DROPDOWN_SELECTOR_EXPANDED);
+        actions.moveToElement(driver.findElement(BULK_ACTIONS_OPTIONS_DROPDOWN_SELECTOR))
+            .perform();
+        super.waitForElement(BULK_ACTIONS_DELETE_OPTION_SELECTOR);
+        super.waitForElement(By.cssSelector(".btn-group.open"));
         driver.findElement(BULK_ACTIONS_DELETE_OPTION_SELECTOR).click();
         super.waitForElement(BULK_ACTIONS_DELETE_OPTION_CONFIRM_SELECTOR);
         driver.findElement(BULK_ACTIONS_DELETE_OPTION_CONFIRM_SELECTOR).click();
@@ -122,96 +135,29 @@ public class TasksPage extends Page {
         driver.findElement(ADD_DEFAULT_FILTERS_BUTTON).click();
     }
 
-}
-
-import edu.afts.rukovoditel.testframework.constants.*;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static edu.afts.rukovoditel.testframework.constants.Selectors.*;
-
-public class TasksPage extends Page {
-
-//    private static final String BASE_DASHBOARD_URI = BASE_PATH + ;
-
-    private List<String> addedTasks = new ArrayList<>();
-
-    public TasksPage(ChromeDriver driver, WebDriverWait wait) {
-        super(driver, wait);
-//        super.getPage(BASE_DASHBOARD_URI);
-    }
-
-    public void showTaskPageForProject() {
-        waitForElement(PROJECT_PAGE_GRID_SELECTOR);
-        driver.findElement(PROJECT_YOURNAME_LINK_SELECTOR).click();
-        waitForElement(TASK_PAGE_GRID_SELECTOR);
-    }
-
+     // ############ PART 2
     public void showAddTaskForm() {
         waitForElement(TASK_PAGE_GRID_SELECTOR);
         driver.findElement(TASK_PAGE_ADD_TASK_BUTTON_SELECTOR).click();
         waitForElement(TASK_FORM_TITLE_SELECTOR);
     }
 
-    public void setName(String taskName) {
-        driver.findElement(TASK_NAME_INPUT_SELECTOR)
-                .sendKeys(taskName);
-    }
-    public void setType(TaskType type) {
-       new Select(driver.findElement(TASK_TYPE_SELECT_SELECTOR))
-                .selectByVisibleText(type.value());
-   }
-    public void setPriority(TaskPriority priority) {
-        new Select(driver.findElement(TASK_PRIORITY_SELECT_SELECTOR))
-                .selectByVisibleText(priority.value());
-    }
-
-    public void setStatus(TaskStatus status) {
-        new Select(driver.findElement(TASK_STATUS_SELECT_SELECTOR))
-                .selectByVisibleText(status.value());
-    }
-
-    public void setDescription(String taskDescription) {
-        var iframe = driver.switchTo().frame(0);
-        iframe.findElement(By.xpath("//body[@contenteditable='true']"))
-                .sendKeys(taskDescription);
-        driver.switchTo().defaultContent();
-    }
-
-    public void saveTask(String taskName) {
-        // save task
-        driver.findElement(TASK_SUBMIT_BUTTON_SELECTOR)
-                .click();
-
-        waitForElement(TASK_PAGE_GRID_SELECTOR);
-        addedTasks.add(taskName);
-    }
-
     // ## CLEANUP METHODS ##
     public void removeTask() {
-        driver.findElementByXPath("//button[contains(text(), 'More Actions')]")
-                .click();
-        driver.findElementByXPath("//a[contains(text(), 'Delete')]")
-                .click();
+        driver.findElementByXPath("//button[contains(text(), 'More Actions')]").click();
+        driver.findElementByXPath("//a[contains(text(), 'Delete')]").click();
         waitForElement(TASK_DELETE_SUBMIT_BUTTON_SELECTOR);
-        driver.findElement(TASK_DELETE_SUBMIT_BUTTON_SELECTOR)
-                .click();
+        driver.findElement(TASK_DELETE_SUBMIT_BUTTON_SELECTOR).click();
     }
 
     public void showTaskInfoPage(String taskName) {
-        driver.findElement(getTaskGridLinkSelectorByName(taskName))
-                .click();
+        driver.findElement(getTaskGridLinkSelectorByName(taskName)).click();
         waitForElement(TASK_INFO_SELECTOR);
     }
 
     public String getTaskNameString() {
-        return driver.findElementByXPath("//div[contains(@class, 'portlet-title')]/div[contains(@class, 'caption')]").getText();
+        return driver.findElementByXPath(
+            "//div[contains(@class, 'portlet-title')]/div[contains(@class, 'caption')]").getText();
     }
 
     public String getTaskTypeString() {
@@ -227,23 +173,35 @@ public class TasksPage extends Page {
     }
 
     public String getTaskDescriptionString() {
-        return driver.findElementByXPath("//div[contains(@class, 'content_box_content fieldtype_textarea_wysiwyg')]").getText();
-    }
-
-    public void cleanup() {
-//        super.getPage(BASE_DASHBOARD_URI);
-        showTaskPageForProject();
-
-        for (var taskName : addedTasks) {
-            if (isElementShown(getTaskGridLinkSelectorByName(taskName)))
-            {
-                showTaskInfoPage(taskName);
-                removeTask();
-            }
-        }
+        return driver.findElementByXPath(
+            "//div[contains(@class, 'content_box_content fieldtype_textarea_wysiwyg')]").getText();
     }
 
     public By getTaskGridLinkSelectorByName(String taskName) {
         return By.xpath("//a[contains(text(), '" + taskName + "')]");
+    }
+
+    public String createTestProject() {
+        String projectName = UUID.randomUUID().toString();
+        // WHEN
+        // show form
+        projectsPage.open();
+        projectsPage.showAddProjectForm();
+        assertTrue(projectsPage.isElementShown(PROJECT_MODAL_SELECTOR));
+
+        // fill form
+        projectsPage.setStatus(ProjectStatus.NEW);
+        projectsPage.setPriority(ProjectPriority.HIGH);
+        projectsPage.setTodayStartDate();
+        projectsPage.setName(projectName);
+
+        // save project
+        projectsPage.saveProject();
+        assertFalse(projectsPage.isElementShown(PROJECT_MODAL_SELECTOR));
+        return projectName;
+    }
+
+    public void removeTestProject(String projectName) {
+
     }
 }

@@ -3,7 +3,6 @@ package edu.afts.rukovoditel.selenium;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
@@ -27,18 +26,9 @@ class ProjectTest extends RukovoditelTestBase {
     @BeforeEach
     public void setup() {
         super.setup();
-        fixture = new ProjectsPage(driver, wait);
         new LoginPage(driver, wait).loginUser();
-    }
-
-    @AfterEach
-    public void cleanup() {
-        try {
-            fixture.removeProjectsFromTable();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        super.cleanup();
+        fixture = new ProjectsPage(driver, wait);
+        fixture.open();
     }
 
     @Test
@@ -50,7 +40,6 @@ class ProjectTest extends RukovoditelTestBase {
 
         // THEN
         assertTrue(fixture.isElementShown(PROJECT_NAME_ERROR_CONTAINER_SELECTOR));
-        assertTrue(fixture.isElementShown(PROJECT_MODAL_SELECTOR));
     }
 
     @Test
@@ -76,6 +65,7 @@ class ProjectTest extends RukovoditelTestBase {
         assertFalse(fixture.isElementShown(PROJECT_MODAL_SELECTOR));
 
         // filter table
+        fixture.open();
         fixture.filterProjectsTable(expectedUuid);
         fixture.waitForElement(DASH_SEARCH_NOTE_SELECTOR);
 
@@ -83,6 +73,18 @@ class ProjectTest extends RukovoditelTestBase {
         List<WebElement> projectTableRows = fixture.getProjectTableRows();
         assertEquals(1, projectTableRows.size());
         assertEquals(expectedUuid, fixture.getProjectNameFromRow(projectTableRows.get(0)));
+
+        // CLEANUP
+        cleanup();
+    }
+
+    public void cleanup() {
+        try {
+            fixture.removeProjectsFromTable();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        super.cleanup();
     }
 
 }
