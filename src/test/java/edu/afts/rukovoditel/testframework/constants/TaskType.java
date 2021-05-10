@@ -2,8 +2,8 @@ package edu.afts.rukovoditel.testframework.constants;
 
 public enum TaskType {
 
-    IDEA("Idea"),
     TASK("Task"),
+    IDEA("Idea"),
     CHANGE("Change"),
     BUG("Bug");
 

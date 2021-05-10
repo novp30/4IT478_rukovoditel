@@ -6,7 +6,9 @@ public enum TaskStatus {
     OPEN("Open"),
     WAITING("Waiting"),
     CLOSED("Closed"),
-    CANCELED("Canceled");
+    CANCELED("Canceled"),
+    DONE("Done"),
+    PAID("Paid");
 
     private final String value;
 

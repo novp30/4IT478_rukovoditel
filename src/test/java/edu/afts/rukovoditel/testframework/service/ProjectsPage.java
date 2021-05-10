@@ -2,6 +2,7 @@ package edu.afts.rukovoditel.testframework.service;
 
 import edu.afts.rukovoditel.testframework.constants.ProjectPriority;
 import edu.afts.rukovoditel.testframework.constants.ProjectStatus;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -70,10 +71,6 @@ public class ProjectsPage extends Page {
                 .click();
         waitForElement(DASH_RESET_FILTER);
     }
-    public int getProjectsCount() {
-        String text = driver.findElement(DASH_PROJECTS_COUNT).getText();
-        return Integer.parseInt(text);
-    }
 
     public List<WebElement> getProjectTableRows() {
         waitForElement(DASH_RESET_FILTER);
@@ -81,31 +78,25 @@ public class ProjectsPage extends Page {
     }
 
     public String getProjectNameFromRow(WebElement webElement) {
+        waitForElement(DASH_PROJECT_TABLE_NAME_SELECTOR);
         return webElement.findElement(DASH_PROJECT_TABLE_NAME_SELECTOR)
                 .getText();
     }
 
-    public boolean isProjectFilterActive() {
-        return isElementShown(DASH_RESET_FILTER);
-    }
-
     /**
+     * CLEANUP
+     *
      * Removes all rows from projects table if any search filter is active.
      */
     public void removeProjectsFromTable() throws InterruptedException {
         waitForElement(DASH_RESET_FILTER);
-        if (isProjectFilterActive()) {
-            resetFilters();
-        }
-        filterProjectsTable(DEFAULT_PROJECT_NAME);
-
         waitForElement(DASH_DELETE_ALL_SELECTED);
         driver.findElement(DASH_DELETE_ALL_SELECTED).click();
         driver.findElement(DASH_DROPDOWN_SELECTED).click();
         waitForElement(DASH_DELETE_SELECTED);
         driver.findElement(DASH_DELETE_SELECTED).click();
         waitForElement(DASH_DELETE_SELECTED_BUTTON);
-        driver.findElement(DELETE_CONFIRM_CHECKBOX_SELECTOR).click();
+        driver.findElement(By.cssSelector(".single-checkbox label")).click();
         driver.findElement(DASH_DELETE_SELECTED_BUTTON).click();
         resetFilters();
     }
