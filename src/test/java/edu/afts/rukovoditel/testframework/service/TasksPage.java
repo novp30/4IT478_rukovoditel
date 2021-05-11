@@ -202,6 +202,17 @@ public class TasksPage extends Page {
     }
 
     public void removeTestProject(String projectName) {
-
+        waitForElement(By.partialLinkText(projectName));
+        WebElement projectToDelete = driver.findElementByLinkText(projectName);
+        projectToDelete.click();
+        WebElement target = driver.findElement(PROJECT_INFO_MORE_ACTIONS_DROPDOWN);
+        actions.moveToElement(target).perform();
+        WebElement deleteButton = driver.findElement(PROJECT_INFO_DROPDOWN_DELETE_BUTTON);
+        waitForElement(PROJECT_INFO_DROPDOWN_DELETE_BUTTON);
+        deleteButton.click();
+        waitForElement(PROJECT_INFO_DELETE_CONFIRM_CHECKBOX);
+        WebElement projectDeleteConfirm = driver.findElement(PROJECT_INFO_DELETE_CONFIRM_CHECKBOX);
+        projectDeleteConfirm.click();
+        driver.findElement(PROJECT_INFO_DELETE_FINAL_BUTTON).click();
     }
 }

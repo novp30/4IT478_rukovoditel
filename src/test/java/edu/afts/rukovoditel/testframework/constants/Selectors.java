@@ -31,21 +31,24 @@ public class Selectors {
     public static final By DASH_PROJECT_TABLE_SELECTOR = By.cssSelector("#entity_items_listing66_21 tbody tr");
     public static final By DASH_SEARCH_NOTE_SELECTOR = By.cssSelector(".search-notes");
 
+    // project info page
+    public static final By PROJECT_INFO_MORE_ACTIONS_DROPDOWN = By.cssSelector("div.prolet-body-actions > ul > li:nth-child(2) > div.btn-group");
+    public static final By PROJECT_INFO_DROPDOWN_DELETE_BUTTON = By.cssSelector("div.prolet-body-actions > ul > li:nth-child(2) > div.btn-group > ul > li:nth-of-type(2) > a");
+    public static final By PROJECT_INFO_DELETE_CONFIRM_CHECKBOX = By.cssSelector("#delete_confirm");
+    public static final By PROJECT_INFO_DELETE_FINAL_BUTTON = By.cssSelector(".modal-footer .btn-primary-modal-action");
+
     // TASKS
     public static final By TASK_FORM_TITLE_SELECTOR = By.xpath("//h4[contains(text(), 'Task Info')]");
-    ////
     public static final By TASK_PAGE_GRID_SELECTOR = By.xpath("//div[contains(text(), 'Action')]");
     public static final By TASK_PAGE_ADD_TASK_BUTTON_SELECTOR = By.xpath("//button[contains(text(), 'Add Task')]");
     public static final By TASK_INFO_SELECTOR = By.xpath("//h4[contains(text(), 'Info')]");
     public static final By TASK_DELETE_SUBMIT_BUTTON_SELECTOR = By.xpath("//button[contains(text(), 'Delete')]");
-
     public static final By DASH_ADD_PROJECT_BUTTON_SELECTOR = By.cssSelector(".entitly-listing-buttons-left > button");
     public static final By PROJECT_SEARCH_INPUT_SELECTOR = By.id("entity_items_listing66_21_search_keywords");
     public static final By DASH_DELETE_ALL_SELECTED = By.id("select_all_items");
     public static final By DASH_DROPDOWN_SELECTED =  By.xpath("(.//*[@class=\"entitly-listing-buttons-left\"]//button)[2]");
     public static final By DASH_DELETE_SELECTED = By.cssSelector(":nth-child(2) > .link-to-modalbox");
     public static final By DASH_DELETE_SELECTED_BUTTON = By.cssSelector("div.modal-footer > .btn-primary-modal-action");
-    //tasks
     public static final By ADD_TASK_BUTTON_SELECTOR = By.cssSelector(".btn.btn-primary");
     public static final By TYPE_SELECT_SELECTOR = By.cssSelector("[class='form-group form-group-167'] [class='col-md-9'] div [data-placeholder='Select some options']");
     public static final By NAME_INPUT_SELECTOR = By.cssSelector("input[id='fields_168']");
