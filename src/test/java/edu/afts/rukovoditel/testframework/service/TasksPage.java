@@ -6,6 +6,7 @@ import edu.afts.rukovoditel.testframework.constants.TaskPriority;
 import edu.afts.rukovoditel.testframework.constants.TaskStatus;
 import edu.afts.rukovoditel.testframework.constants.TaskType;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
@@ -210,9 +211,12 @@ public class TasksPage extends Page {
         WebElement deleteButton = driver.findElement(PROJECT_INFO_DROPDOWN_DELETE_BUTTON);
         waitForElement(PROJECT_INFO_DROPDOWN_DELETE_BUTTON);
         deleteButton.click();
-        waitForElement(PROJECT_INFO_DELETE_CONFIRM_CHECKBOX);
-        WebElement projectDeleteConfirm = driver.findElement(PROJECT_INFO_DELETE_CONFIRM_CHECKBOX);
-        projectDeleteConfirm.click();
-        driver.findElement(PROJECT_INFO_DELETE_FINAL_BUTTON).click();
+        try {
+            waitForElement(PROJECT_INFO_DELETE_CONFIRM_CHECKBOX);
+            WebElement projectDeleteConfirm = driver.findElement(PROJECT_INFO_DELETE_CONFIRM_CHECKBOX);
+            projectDeleteConfirm.click();
+        } catch (TimeoutException ex1) {
+            driver.findElement(PROJECT_INFO_DELETE_FINAL_BUTTON).click();
+        }
     }
 }
