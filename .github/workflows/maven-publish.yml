@@ -1,27 +1,14 @@
-# This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
-# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
-
-name: Maven Package
+name: Java CI with Maven
 on:
-# runs tests for commits pushed to master
   push:
-    branches: [ master ]
-    # do not run tests if file README.md changes
-    
-    paths-ignore:
-      - 'README.md'
-    # run tests for GitHub Pull requests. Test result is visible in the Pull Request page.
-
+    branches:
+      - master
   pull_request:
-    branches: [ master ]
-
-    paths-ignore:
-      - 'README.md'
-
+    branches:
+      - master
   schedule:
-    # run tests every day at 12 am and 12 pm UTC
-   - cron:  '0 */12 * * *'
-   
+  - cron: "0 */12 * * *"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -31,6 +18,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '11'
+      - name: Install Google Chrome # Using shell script to install Google Chrome
+        run: |
+          chmod +x ./InstallChrome.sh
+                      ./InstallChrome.sh
       - name: Build
         run: mvn -B clean package -DskipTests
       - name: Run tests
