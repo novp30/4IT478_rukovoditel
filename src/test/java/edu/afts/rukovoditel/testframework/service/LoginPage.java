@@ -5,11 +5,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static edu.afts.rukovoditel.testframework.constants.Selectors.LOGIN_LOGIN_BUTTON_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_LOGOFF_LINK_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.LOGIN_PASSWORD_INPUT_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.LOGIN_USERNAME_INPUT_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_USER_DROPDOWN_SELECTOR;
+import static edu.afts.rukovoditel.testframework.constants.Selectors.Dashboard.*;
+import static edu.afts.rukovoditel.testframework.constants.Selectors.Login.*;
 
 public class LoginPage extends Page {
 

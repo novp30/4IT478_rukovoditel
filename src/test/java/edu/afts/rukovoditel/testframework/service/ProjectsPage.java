@@ -2,7 +2,6 @@ package edu.afts.rukovoditel.testframework.service;
 
 import edu.afts.rukovoditel.testframework.constants.ProjectPriority;
 import edu.afts.rukovoditel.testframework.constants.ProjectStatus;
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -12,7 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-import static edu.afts.rukovoditel.testframework.constants.Selectors.*;
+import static edu.afts.rukovoditel.testframework.constants.Selectors.Dashboard.*;
+import static edu.afts.rukovoditel.testframework.constants.Selectors.Project.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProjectsPage extends Page {
@@ -65,9 +65,9 @@ public class ProjectsPage extends Page {
     }
 
     public void filterProjectsTable(String projectName) {
-        waitForElement(PROJECT_SEARCH_INPUT_SELECTOR);
-        driver.findElement(PROJECT_SEARCH_INPUT_SELECTOR).clear();
-        driver.findElement(PROJECT_SEARCH_INPUT_SELECTOR)
+        waitForElement(DASH_PROJECT_SEARCH_INPUT_SELECTOR);
+        driver.findElement(DASH_PROJECT_SEARCH_INPUT_SELECTOR).clear();
+        driver.findElement(DASH_PROJECT_SEARCH_INPUT_SELECTOR)
                 .sendKeys(projectName);
         driver.findElement(DASH_PROJECT_SEARCH_SUBMIT_BUTTON_SELECTOR)
                 .click();
@@ -99,7 +99,7 @@ public class ProjectsPage extends Page {
         driver.findElement(DASH_DELETE_SELECTED).click();
         waitForElement(DASH_DELETE_SELECTED_BUTTON);
         try {
-            driver.findElement(By.cssSelector(".single-checkbox label")).click();
+            driver.findElement(PROJECT_DELETE_CHECKBOX_SELECTOR).click();
         } catch (NoSuchElementException e) {
             System.out.println("The checkbox was removed again. :)");
         }

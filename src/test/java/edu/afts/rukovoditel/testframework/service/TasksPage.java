@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static edu.afts.rukovoditel.testframework.constants.Selectors.*;
+import static edu.afts.rukovoditel.testframework.constants.Selectors.Project.*;
+import static edu.afts.rukovoditel.testframework.constants.Selectors.Tasks.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

@@ -13,9 +13,8 @@ import edu.afts.rukovoditel.testframework.constants.ProjectStatus;
 import edu.afts.rukovoditel.testframework.service.LoginPage;
 import edu.afts.rukovoditel.testframework.service.ProjectsPage;
 
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_MODAL_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.DASH_SEARCH_NOTE_SELECTOR;
-import static edu.afts.rukovoditel.testframework.constants.Selectors.PROJECT_NAME_ERROR_CONTAINER_SELECTOR;
+import static edu.afts.rukovoditel.testframework.constants.Selectors.Dashboard.*;
+import static edu.afts.rukovoditel.testframework.constants.Selectors.Project.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

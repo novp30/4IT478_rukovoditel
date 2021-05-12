@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import edu.afts.rukovoditel.testframework.constants.*;
-import edu.afts.rukovoditel.testframework.service.ProjectsPage;
 import edu.afts.rukovoditel.testframework.service.TasksPage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import edu.afts.rukovoditel.testframework.service.LoginPage;
 import org.openqa.selenium.By;
 
-import static edu.afts.rukovoditel.testframework.constants.Selectors.*;
+import static edu.afts.rukovoditel.testframework.constants.Selectors.Tasks.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
