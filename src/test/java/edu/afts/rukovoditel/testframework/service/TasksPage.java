@@ -209,15 +209,16 @@ public class TasksPage extends Page {
         projectToDelete.click();
         WebElement target = driver.findElement(PROJECT_INFO_MORE_ACTIONS_DROPDOWN);
         actions.moveToElement(target).perform();
+        waitForElement(TASK_PROJECT_DELETE_SHOWN_SELECTOR);
         WebElement deleteButton = driver.findElement(PROJECT_INFO_DROPDOWN_DELETE_BUTTON);
-        waitForElement(PROJECT_INFO_DROPDOWN_DELETE_BUTTON);
         deleteButton.click();
         try {
             waitForElement(PROJECT_INFO_DELETE_CONFIRM_CHECKBOX);
             WebElement projectDeleteConfirm = driver.findElement(PROJECT_INFO_DELETE_CONFIRM_CHECKBOX);
             projectDeleteConfirm.click();
         } catch (TimeoutException ex1) {
-            driver.findElement(PROJECT_INFO_DELETE_FINAL_BUTTON).click();
+            // delete checkbox was removed again
         }
+        driver.findElement(PROJECT_INFO_DELETE_FINAL_BUTTON).click();
     }
 }

@@ -80,6 +80,7 @@ public class Selectors {
         public static final By BULK_ACTIONS_DELETE_OPTION_SELECTOR = By.cssSelector("li:nth-of-type(2) > .link-to-modalbox");
         public static final By BULK_ACTIONS_DELETE_OPTION_CONFIRM_SELECTOR = By.cssSelector(".btn.btn-primary.btn-primary-modal-action");
         public static final By TASK_TABLE_ROWS_SELECTOR = By.cssSelector("tbody > tr");
+        public static final By TASK_PROJECT_DELETE_SHOWN_SELECTOR = By.cssSelector(".btn-group.open");
     }
 
 }
