@@ -29,7 +29,8 @@ public abstract class RukovoditelTestBase {
     }
 
     @AfterEach
-    protected void cleanup() {
+    public void cleanup() {
+        driver.close();
         driver.quit();
     }
 }

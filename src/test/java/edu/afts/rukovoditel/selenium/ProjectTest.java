@@ -3,6 +3,7 @@ package edu.afts.rukovoditel.selenium;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebElement;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ProjectTest extends RukovoditelTestBase {
 
     private ProjectsPage fixture;
+    private boolean removeAddedData;
 
     @BeforeEach
     public void setup() {
@@ -29,10 +31,26 @@ class ProjectTest extends RukovoditelTestBase {
         new LoginPage(driver, wait).loginUser();
         fixture = new ProjectsPage(driver, wait);
         fixture.open();
+        fixture.resetFilters();
+        removeAddedData = true;
+    }
+
+    @AfterEach
+    public void cleanup() {
+        if (removeAddedData) {
+            try {
+                fixture.removeProjectsFromTable();
+            } catch (Exception e) {
+                System.out.println(e.getLocalizedMessage());
+            }
+        }
+        super.cleanup();
     }
 
     @Test
     void testProjectWithoutNameNotCreated() {
+        // SETUP
+        removeAddedData = false;
         // WHEN
         fixture.showAddProjectForm();
         fixture.setName("");
@@ -73,18 +91,5 @@ class ProjectTest extends RukovoditelTestBase {
         List<WebElement> projectTableRows = fixture.getProjectTableRows();
         assertEquals(1, projectTableRows.size());
         assertEquals(expectedUuid, fixture.getProjectNameFromRow(projectTableRows.get(0)));
-
-        // CLEANUP
-        cleanup();
     }
-
-    public void cleanup() {
-        try {
-            fixture.removeProjectsFromTable();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        super.cleanup();
-    }
-
 }

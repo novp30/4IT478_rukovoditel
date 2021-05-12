@@ -3,6 +3,8 @@ package edu.afts.rukovoditel.testframework.service;
 import edu.afts.rukovoditel.testframework.constants.ProjectPriority;
 import edu.afts.rukovoditel.testframework.constants.ProjectStatus;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
@@ -96,14 +98,22 @@ public class ProjectsPage extends Page {
         waitForElement(DASH_DELETE_SELECTED);
         driver.findElement(DASH_DELETE_SELECTED).click();
         waitForElement(DASH_DELETE_SELECTED_BUTTON);
-        driver.findElement(By.cssSelector(".single-checkbox label")).click();
+        try {
+            driver.findElement(By.cssSelector(".single-checkbox label")).click();
+        } catch (NoSuchElementException e) {
+            System.out.println("The checkbox was removed again. :)");
+        }
         driver.findElement(DASH_DELETE_SELECTED_BUTTON).click();
         resetFilters();
     }
 
-    private void resetFilters() {
-        waitForElement(DASH_RESET_FILTER);
-        driver.findElement(DASH_RESET_FILTER)
+    public void resetFilters() {
+        try {
+            waitForElement(DASH_RESET_FILTER);
+            driver.findElement(DASH_RESET_FILTER)
                 .click();
+        } catch (TimeoutException e) {
+            System.out.println("Reset filter is not shown.");
+        }
     }
 }
