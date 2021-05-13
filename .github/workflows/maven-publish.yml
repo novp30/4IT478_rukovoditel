@@ -32,6 +32,6 @@ jobs:
         with:
           java-version: '15'
       - name: Build
-        run: run: mvn -B package --file pom.xml
+        run: mvn -B package --file pom.xml
       - name: Run tests
         run: mvn -B clean verify -Pheadless-mode
