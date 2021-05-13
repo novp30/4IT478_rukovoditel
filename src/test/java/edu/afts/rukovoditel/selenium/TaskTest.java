@@ -11,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import edu.afts.rukovoditel.testframework.service.LoginPage;
-import org.openqa.selenium.By;
+
 
 import static edu.afts.rukovoditel.testframework.constants.Selectors.Tasks.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -99,7 +99,7 @@ class TaskTest extends RukovoditelTestBase {
         driver.navigate()
             .refresh();
 
-        fixture.waitForElement(By.cssSelector("td.fieldtype_action"));
+        fixture.waitForElement(TASK_TABLE);
         List<String> actualStatuses = fixture.getTaskStatusesFromTable();
         int actualNumberOfTasks = fixture.getTaskTableRows().size();
 
@@ -111,7 +111,7 @@ class TaskTest extends RukovoditelTestBase {
         fixture.editFilterOptions(filtersToAdd);
         //then
         actualStatuses.clear();
-        fixture.waitForElement(By.cssSelector("td.fieldtype_action"));
+        fixture.waitForElement(TASK_TABLE);
         actualStatuses = fixture.getTaskStatusesFromTable();
         actualNumberOfTasks = fixture.getTaskTableRows().size();
 
@@ -120,7 +120,7 @@ class TaskTest extends RukovoditelTestBase {
         //when
         fixture.deleteAllFilters();
         actualStatuses.clear();
-        fixture.waitForElement(By.cssSelector("td.fieldtype_action"));
+        fixture.waitForElement(TASK_TABLE);
         actualStatuses = fixture.getTaskStatusesFromTable();
         actualNumberOfTasks = fixture.getTaskTableRows().size();
 

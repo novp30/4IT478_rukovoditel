@@ -62,8 +62,8 @@ public class TasksPage extends Page {
     }
 
     public void setDescription(String taskDescription) {
-        driver.switchTo().frame(driver.findElementByXPath("//*[@id='cke_1_contents']/iframe"));
-        WebElement element = driver.findElement(By.cssSelector("body"));
+        driver.switchTo().frame(driver.findElement(TASK_FORM_DESCRIPTION_IFRAME));
+        WebElement element = driver.findElement(TASK_FORM_DESCRIPTION_IFRAME_BODY);
         element.sendKeys(taskDescription);
         driver.switchTo().defaultContent();
     }
@@ -80,7 +80,7 @@ public class TasksPage extends Page {
     public List<String> getTaskStatusesFromTable() {
         for (WebElement row : getTaskTableRows()) {
             statuses.add(
-                row.findElement(By.cssSelector(".field-169-td.fieldtype_dropdown div")).getText());
+                row.findElement(TASK_TABLE_STATUS_VALUE).getText());
         }
         return statuses;
     }
@@ -103,10 +103,10 @@ public class TasksPage extends Page {
 
         for (String filter : filtersToAdd) {
             WebElement select = driver.findElement(FILTER_STATUS_SELECT_SELECTOR);
-            WebElement selectSearchInput = driver.findElementByCssSelector(".chosen-choices > li > input");
+            WebElement selectSearchInput = driver.findElement(SELECT_SEARCH_INPUT);
             selectSearchInput.clear();
             selectSearchInput.sendKeys(filter);
-            super.waitForElement(By.cssSelector("li.active-result"));
+            super.waitForElement(FILTERS_ACTIVE_RESULT);
             selectSearchInput.sendKeys(Keys.ENTER);
             // new Select(select)
             //         .selectByVisibleText(filtersToAdd.get(i));
@@ -120,7 +120,7 @@ public class TasksPage extends Page {
         actions.moveToElement(driver.findElement(BULK_ACTIONS_OPTIONS_DROPDOWN_SELECTOR))
             .perform();
         super.waitForElement(BULK_ACTIONS_DELETE_OPTION_SELECTOR);
-        super.waitForElement(By.cssSelector(".btn-group.open"));
+        super.waitForElement(BULK_DELETE);
         driver.findElement(BULK_ACTIONS_DELETE_OPTION_SELECTOR).click();
         super.waitForElement(BULK_ACTIONS_DELETE_OPTION_CONFIRM_SELECTOR);
         driver.findElement(BULK_ACTIONS_DELETE_OPTION_CONFIRM_SELECTOR).click();
@@ -146,8 +146,8 @@ public class TasksPage extends Page {
 
     // ## CLEANUP METHODS ##
     public void removeTask() {
-        driver.findElementByXPath("//button[contains(text(), 'More Actions')]").click();
-        driver.findElementByXPath("//a[contains(text(), 'Delete')]").click();
+        driver.findElement(TASK_MORE_ACTIONS).click();
+        driver.findElement(TASK_MORE_ACTIONS_DELETE).click();
         waitForElement(TASK_DELETE_SUBMIT_BUTTON_SELECTOR);
         driver.findElement(TASK_DELETE_SUBMIT_BUTTON_SELECTOR).click();
     }
@@ -158,25 +158,23 @@ public class TasksPage extends Page {
     }
 
     public String getTaskNameString() {
-        return driver.findElementByXPath(
-            "//div[contains(@class, 'portlet-title')]/div[contains(@class, 'caption')]").getText();
+        return driver.findElement(TASK_NAME_STRING).getText();
     }
 
     public String getTaskTypeString() {
-        return driver.findElementByXPath("//tr[contains(@class, 'form-group-167')]/td/div").getText();
+        return driver.findElement(TASK_TYPE_STRING).getText();
     }
 
     public String getTaskStatusString() {
-        return driver.findElementByXPath("//tr[contains(@class, 'form-group-169')]/td/div").getText();
+        return driver.findElement(TASK_STATUS_STRING).getText();
     }
 
     public String getTaskPriorityString() {
-        return driver.findElementByXPath("//tr[contains(@class, 'form-group-170')]/td/div").getText();
+        return driver.findElement(TASK_PRIORITY_STRING).getText();
     }
 
     public String getTaskDescriptionString() {
-        return driver.findElementByXPath(
-            "//div[contains(@class, 'content_box_content fieldtype_textarea_wysiwyg')]").getText();
+        return driver.findElement(TASK_DESCRIPTION_STRING).getText();
     }
 
     public By getTaskGridLinkSelectorByName(String taskName) {

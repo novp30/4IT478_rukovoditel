@@ -63,6 +63,14 @@ public class Selectors {
         public static final By TASK_DELETE_SUBMIT_BUTTON_SELECTOR = By.xpath("//button[contains(text(), 'Delete')]");
         public static final By PROJECT_SEARCH_INPUT_SELECTOR = By.id("entity_items_listing66_21_search_keywords");
         public static final By ADD_TASK_BUTTON_SELECTOR = By.cssSelector(".btn.btn-primary");
+        public static final By TASK_NAME_STRING = By.xpath("//div[contains(@class, 'portlet-title')]/div[contains(@class, 'caption')]");
+        public static final By TASK_TYPE_STRING = By.xpath("//tr[contains(@class, 'form-group-167')]/td/div");
+        public static final By TASK_STATUS_STRING = By.xpath("//tr[contains(@class, 'form-group-169')]/td/div");
+        public static final By TASK_PRIORITY_STRING = By.xpath("//tr[contains(@class, 'form-group-170')]/td/div");
+        public static final By TASK_DESCRIPTION_STRING = By.xpath("//div[contains(@class, 'content_box_content fieldtype_textarea_wysiwyg')]");
+        public static final By TASK_FORM_DESCRIPTION_IFRAME = By.xpath("//*[@id='cke_1_contents']/iframe");
+        public static final By TASK_FORM_DESCRIPTION_IFRAME_BODY = By.cssSelector("body");
+        public static final By TASK_TABLE_STATUS_VALUE = By.cssSelector(".field-169-td.fieldtype_dropdown div");
         public static final By TYPE_SELECT_SELECTOR = By.cssSelector("[class='form-group form-group-167'] [class='col-md-9'] div [data-placeholder='Select some options']");
         public static final By NAME_INPUT_SELECTOR = By.cssSelector("input[id='fields_168']");
         public static final By STATUS_INPUT_SELECTOR = By.cssSelector("[class='form-group form-group-169'] [class='col-md-9'] div [data-placeholder='Select some options']");
@@ -78,9 +86,15 @@ public class Selectors {
         public static final By BULK_SELECT_ALL_CHECKBOX_SELECTOR = By.cssSelector("input#select_all_items");
         public static final By BULK_ACTIONS_OPTIONS_DROPDOWN_SELECTOR = By.cssSelector(".btn-group > .btn.btn-default.dropdown-toggle");
         public static final By BULK_ACTIONS_DELETE_OPTION_SELECTOR = By.cssSelector("li:nth-of-type(2) > .link-to-modalbox");
+        public static final By BULK_DELETE = By.cssSelector(".btn-group.open");
         public static final By BULK_ACTIONS_DELETE_OPTION_CONFIRM_SELECTOR = By.cssSelector(".btn.btn-primary.btn-primary-modal-action");
         public static final By TASK_TABLE_ROWS_SELECTOR = By.cssSelector("tbody > tr");
         public static final By TASK_PROJECT_DELETE_SHOWN_SELECTOR = By.cssSelector(".btn-group.open");
+        public static final By TASK_TABLE = By.cssSelector("td.fieldtype_action");
+        public static final By TASK_MORE_ACTIONS = By.xpath("//button[contains(text(), 'More Actions')]");
+        public static final By TASK_MORE_ACTIONS_DELETE = By.xpath("//a[contains(text(), 'Delete')]");
+        public static final By SELECT_SEARCH_INPUT = By.cssSelector(".chosen-choices > li > input");
+        public static final By FILTERS_ACTIVE_RESULT = By.cssSelector("li.active-result");
     }
 
 }
