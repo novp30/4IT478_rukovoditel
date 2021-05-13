@@ -32,6 +32,6 @@ jobs:
         with:
           java-version: '15' 
       - name: Build
-        run: mvn -B clean package -DskipTests
+        run: mvn --batch-mode --update-snapshots verify
       - name: Run tests
         run: mvn -B clean verify -Pheadless-mode
